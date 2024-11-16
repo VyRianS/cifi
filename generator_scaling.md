@@ -4,8 +4,8 @@ This document is an attempt to mathematically quantify the effect of chained gen
 
 - [Terminology](#terminology)
 - [Only Cells, No Generators](#only-cells-no-generators)
-- [MK1 Generators](#mk1-generators)
-- [MK2 Generators](#mk2-generators)
+- [MK1 -> Cells](#mk1---cells)
+- [MK2 -> MK1 -> Cells](#mk2---mk1---cells)
 - [General Form for Generator Scaling](#general-form-for-generator-scaling)
 
 ## Terminology
@@ -25,7 +25,7 @@ With no generators, there are no cells produced over time. The total number of c
 }
 ```
 
-## MK1 Generators
+## MK1 -> Cells
 
 Since there are no higher-level generators, no MK1 generators are produced over time.
 
@@ -53,7 +53,7 @@ N_{cells} = C_{MK1}r_{MK1}t + C_{cells}
 
 Intuitively, $N_{cells}$ is in the form $y = mx + C$, with cell growth over time _linearly_ proportional to the number of MK1 generators ($C_{MK1}$) you start off with and the rate at which each MK1 generator produces cells ($r_{MK1}$).
 
-## MK2 Generators
+## MK2 -> MK1 -> Cells
 
 Since there are no higher-level generators, no MK2 generators are produced over time.
 
@@ -101,3 +101,4 @@ Where $`\mathbb{R}_{MKX}`$ is the product of all rates of production at this gen
 ```
 
 In other words, each higher-level generator has a much greater impact on the overall cell amount at time $t$ due to being able to scale with all rates of production at its level and below it, and having a time component that is proportional to the generator level.
+
