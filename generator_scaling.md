@@ -91,13 +91,13 @@ A pattern can be discerned here: each higher-level generator's contribution to t
 With the above observations, we arrive at a general form for the productive impact for all generator levels on the overall cell amount across time.
 
 ```math
-N_{cells} = N_{MK8}\mathbb{R}_{MK8}t^{8} + N_{MK7}\mathbb{R}_{MK7}t^{7} + ... N_{MK1}\mathbb{R}_{MK1}t + C_{cells}
+N_{cells} = N_{MK8}\mathbb{R}_{MK8}t^{8} + N_{MK7}\mathbb{R}_{MK7}t^{7} + ... + N_{MK1}\mathbb{R}_{MK1}t + C_{cells}
 ```
 
 Where $`\mathbb{R}_{MKX}`$ is the product of all rates of production at this generator level and below it:
 
 ```math
-\mathbb{R}_{MK8} = r_{MK8}*r_{MK7}* ... *r_{MK2}*r_{MK1}
+\mathbb{R}_{MK8} = r_{MK8} * r_{MK7} * ... * r_{MK2} * r_{MK1}
 ```
 
 In other words, each higher-level generator has a much greater impact on the overall cell amount at time $t$ due to being able to scale with all rates of production at its level and below it, and having a time component that is proportional to the generator level.
