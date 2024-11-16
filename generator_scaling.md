@@ -2,6 +2,7 @@
 
 This document is an attempt to mathematically quantify the effect of chained generators (generators producing lower level generators) on overall cell production.
 
+- [Terminology](#terminology)
 - [Only Cells, No Generators](#only-cells-no-generators)
 - [MK1 Generators](#mk1-generators)
 - [MK2 Generators](#mk2-generators)
@@ -82,7 +83,6 @@ Substituting the above formulation for $N_{MK1}$ into $N_{cells} = N_{MK1}r_{MK1
 ```
 
 A pattern can be discerned here: each higher-level generator's contribution to the number of cells at time $t$ is:
-- proportional to the number of generators available at that level, $N_{MKX}$,
 - proportional to the multiplicative effect of _all_ rates of generator and cell production at its level and below it, e.g. the rate term for MK3 generators is $r_{MK3}r_{MK2}r_{MK1}$, and so on,
 - proportional to a time component to the _power_ of the generator level, e.g. the time term for MK3 generators is $t^{3}$.
 
