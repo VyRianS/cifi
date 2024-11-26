@@ -15,7 +15,7 @@ This document is an attempt to mathematically quantify the effect of chained gen
 
 - $`N_{X}`$ - Amount of $`X`$.
 - $`r_{X}`$ - Rate of generation by entity $`X`$. This quantity typically refers to the production of a resource one level lower, e.g. $`r_{MK2}`$ means the rate of production of MK1 generators by a single MK2 generator.
-- $`C_{X}`$ - A constant. Typically used to mean "the amount of $`X`$ you started off with".
+- $`C_{X}`$ - A constant. Typically used to mean the initial amount of $`X`$ at tick $`0`$.
 
 ## 2. Only Cells, No Generators
 
@@ -65,8 +65,8 @@ MK2 generators produce MK1 generators.
 
 ```math
 \displaylines{
-    \frac{d}{dt}(N_{MK1}) = C_{MK2}r_{MK2} \\
-    N_{MK1} = \int_{MK1}C_{MK2}r_{MK2}dt
+    \frac{d}{dt}(N_{MK1}) = N_{MK2}r_{MK2} = C_{MK2}r_{MK2} \\
+    N_{MK1} = \int_{MK1}C_{MK2}r_{MK2}dt = C_{MK2}r_{MK2}t + C_{MK1}
 }
 ```
 
@@ -74,10 +74,9 @@ Substituting the $`N_{MK1}`$ expression into $`\frac{d}{dt}(N_{cells}) = N_{MK1}
 
 ```math
 \displaylines{
-    \frac{d}{dt}(N_{cells}) = (\int_{MK1}C_{MK2}r_{MK2}dt)r_{MK1} \\
-    N_{cells} = r_{MK2}r_{MK1}\int_{cells}\int_{MK1}C_{MK2} dt \\
-    N_{cells} = r_{MK2}r_{MK1}\int_{cells}(C_{MK2}t + C_{MK1}) dt \\
-    N_{cells} = r_{MK2}r_{MK1}(\frac{1}{2}C_{MK2}t^{2} + C_{MK1}t + C_{cells})
+    \frac{d}{dt}(N_{cells}) = (C_{MK2}r_{MK2}t + C_{MK1})r_{MK1} \\
+    N_{cells} = \int_{cells} (C_{MK2}r_{MK2}t + C_{MK1})r_{MK1} dt \\
+    N_{cells} = \frac{1}{2}C_{MK2}r_{MK2}r_{MK1}t^{2} + C_{MK1}r_{MK1}t + C_{cells}
 }
 ```
 
@@ -87,37 +86,41 @@ Extrapolating the above pattern, $`N_{cells}`$ for a system where the highest le
 
 ```math
 \displaylines{
-    N_{cells} = r_{MK3}r_{MK2}r_{MK1}\int_{cells}\int_{MK1}\int_{MK2}C_{MK3} dt \\
-    N_{cells} = r_{MK3}r_{MK2}r_{MK1}(\frac{1}{6}C_{MK3}t^{3} + \frac{1}{2}C_{MK2}t^{2} + C_{MK1}t + C_{cells})
+    N_{cells} = \frac{1}{6}C_{MK3}r_{MK3}r_{MK2}r_{MK1}t^{3} + \frac{1}{2}C_{MK2}r_{MK2}r_{MK1}t^{2} + C_{MK1}r_{MK1}t + C_{cells}
 }
 ```
 
 A pattern can be discerned here: each higher-level generator's contribution to the number of cells at time $t$ is:
 - proportional to a time component to the _power_ of the generator level, e.g. the time term for MK3 generators is $`t^{3}`$.
 - proportional to factorial divisor of the generator level, e.g. the denominator for MK3 generators ($`C_{MK3}`$) is $`\frac{1}{3!} = \frac{1}{6}`$.
-
-As a whole, an increase of $`r_{MKx}`$ has an equal effect on $`N_{cells}`$ _regardless of the generator level_.
+- proportional to the product of the generators rates at that level and below it.
 
 ## 6. General Form for Generator Scaling
 
 With the above observations, we arrive at a general form for the productive impact for all generator levels on the overall cell amount across time.
 
 ```math
-N_{cells}(t) = \prod_{x=1}^{8}r_{MKx} \sum_{x=0}^{8}\frac{1}{x!}C_{MKx}t^{x}
+N_{cells}(t) = \sum_{x=1}^{8}\frac{\mathbb{R}_{MKx}}{x!}C_{MKx}t^{x} + C_{cells}
 ```
 
 Where:
-* $`x`$ is the generator level (consider $`C_{MK0}`$ to be equivalent to $`C_{cells}`$),
-* $`\prod_{x=1}^{8}r_{MKx}`$ is the [product](https://en.wikipedia.org/wiki/Multiplication#Product_of_a_sequence) of all rates of production across _all_ generator levels,
+* $`x`$ is the generator level,
+* $`\mathbb{R}_{MKx}`$ is the rate product of generator $`MKx`$ and all generator levels below it,
 
 ```math
-\prod_{x=1}^{8}r_{MKx} = r_{MK8}*r_{MK7}* ... *r_{MK2}*r_{MK1}
+\displaylines{
+    \mathbb{R}_{MK8} = r_{MK8}*r_{MK7}* ... *r_{MK2}*r_{MK1} \\
+    \mathbb{R}_{MK7} = r_{MK7}*r_{MK6}* ... *r_{MK2}*r_{MK1} \\
+    ... \\
+    \mathbb{R}_{MK2} = r_{MK2}*r_{MK1} \\
+    \mathbb{R}_{MK1} = r_{MK1}
+}
 ```
 
-* and $`\sum_{x=0}^{8}\frac{1}{x!}C_{MKx}t^{x}`$ is the additive contribution of each generator to $`N_{cells}(t)`$.
+* and $`\sum_{x=1}^{8}\frac{\mathbb{R}_{MKx}}{x!}C_{MKx}t^{x}`$ is the additive contribution of each generator to $`N_{cells}(t)`$.
 
 ```math
-\sum_{x=0}^{8}\frac{1}{x!}C_{MKx}t^{x} = \frac{1}{40320}C_{MK8}t^{8} + \frac{1}{5040}C_{MK7}t^{7} + ... + \frac{1}{2}C_{MK2}t^{2} + C_{MK1}t + C_{cells}
+\sum_{x=1}^{8}\frac{\mathbb{R}_{MKx}}{x!}C_{MKx}t^{x} = \frac{\mathbb{R}_{MK8}}{40320}C_{MK8}t^{8} + \frac{\mathbb{R}_{MK7}}{5040}C_{MK7}t^{7} + ... + \frac{\mathbb{R}_{MK2}}{2}C_{MK2}t^{2} + \mathbb{R}_{MK1}C_{MK1}t
 ```
 
 In other words, each higher-level generator has a much greater impact on the overall cell amount at time $t$ due to having a time component that is proportional to the generator level, divided by that level's factorial.
@@ -128,15 +131,14 @@ In other words, each higher-level generator has a much greater impact on the ove
 
 - $`N_{cells}`$ coef. - Scaling contribution of the generator to number of cells at time $`t`$. This is the coefficient of $`N_{MKx}`$ in $`N_{cells}`$.
 - $`\frac{d}{dt}(N_{cells})`$ coef. - Scaling contribution of the generator to the growth of cells at time $`t`$. This is the coefficient of $`N_{MKx}`$ in $`\frac{d}{dt}(N_{cells})`$.
-- $`\mathbb{R} = \prod_{x=1}^{8}r_{MKx}`$ for brevity.
 
-| Generator | $`N_{cells}`$, $`N_{MKx}`$ coef. | $`\frac{d}{dt}(N_{cells})`$, $`N_{MKx}`$ coef. |
-| --- | --- | --- |
-| MK1 | $`\mathbb{R}t`$ | $`\mathbb{R}`$ |
-| MK2 | $`\frac{1}{2}\mathbb{R}t^{2}`$ | $`\mathbb{R}t`$ |
-| MK3 | $`\frac{1}{6}\mathbb{R}t^{3}`$ | $`\frac{1}{2}\mathbb{R}t^{2}`$ |
-| MK4 | $`\frac{1}{24}\mathbb{R}t^{4}`$ | $`\frac{1}{6}\mathbb{R}t^{3}`$ |
-| MK5 | $`\frac{1}{120}\mathbb{R}t^{5}`$ | $`\frac{1}{24}\mathbb{R}t^{4}`$ |
-| MK6 | $`\frac{1}{720}\mathbb{R}t^{6}`$ | $`\frac{1}{120}\mathbb{R}t^{5}`$ |
-| MK7 | $`\frac{1}{5040}\mathbb{R}t^{7}`$ | $`\frac{1}{720}\mathbb{R}t^{6}`$ |
-| MK8 | $`\frac{1}{40320}\mathbb{R}t^{8}`$ | $`\frac{1}{5040}\mathbb{R}t^{7}`$ |
+| Generator | $`N_{cells}`$, $`N_{MKx}`$ coef. | $`\frac{d}{dt}(N_{cells})`$, $`N_{MKx}`$ coef. | $`\mathbb{R}_{MKx}`$ |
+| :---: | :---: | :---: | :---: |
+| MK1 | $`\mathbb{R}t`$ | $`\mathbb{R}`$ | $`r_{MK1}`$ |
+| MK2 | $`\frac{1}{2}\mathbb{R}t^{2}`$ | $`\mathbb{R}t`$ | $`r_{MK2}*r_{MK1}`$ |
+| MK3 | $`\frac{1}{6}\mathbb{R}t^{3}`$ | $`\frac{1}{2}\mathbb{R}t^{2}`$ | $`r_{MK3}*r_{MK2}*r_{MK1}`$ |
+| MK4 | $`\frac{1}{24}\mathbb{R}t^{4}`$ | $`\frac{1}{6}\mathbb{R}t^{3}`$ | $`r_{MK4}* ...*r_{MK1}`$ |
+| MK5 | $`\frac{1}{120}\mathbb{R}t^{5}`$ | $`\frac{1}{24}\mathbb{R}t^{4}`$ | $`r_{MK5}*...*r_{MK1}`$ |
+| MK6 | $`\frac{1}{720}\mathbb{R}t^{6}`$ | $`\frac{1}{120}\mathbb{R}t^{5}`$ | $`r_{MK6}*...*r_{MK1}`$ |
+| MK7 | $`\frac{1}{5040}\mathbb{R}t^{7}`$ | $`\frac{1}{720}\mathbb{R}t^{6}`$ | $`r_{MK7}*...*r_{MK1}`$ |
+| MK8 | $`\frac{1}{40320}\mathbb{R}t^{8}`$ | $`\frac{1}{5040}\mathbb{R}t^{7}`$ | $`r_{MK8}*...*r_{MK1}`$ |
