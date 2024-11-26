@@ -134,11 +134,11 @@ In other words, each higher-level generator has a much greater impact on the ove
 
 | Generator | $`N_{cells}`$, $`N_{MKx}`$ coef. | $`\frac{d}{dt}(N_{cells})`$, $`N_{MKx}`$ coef. | $`\mathbb{R}_{MKx}`$ |
 | :---: | :---: | :---: | :---: |
-| MK1 | $`\mathbb{R}t`$ | $`\mathbb{R}`$ | $`r_{MK1}`$ |
-| MK2 | $`\frac{1}{2}\mathbb{R}t^{2}`$ | $`\mathbb{R}t`$ | $`r_{MK2}*r_{MK1}`$ |
-| MK3 | $`\frac{1}{6}\mathbb{R}t^{3}`$ | $`\frac{1}{2}\mathbb{R}t^{2}`$ | $`r_{MK3}*r_{MK2}*r_{MK1}`$ |
-| MK4 | $`\frac{1}{24}\mathbb{R}t^{4}`$ | $`\frac{1}{6}\mathbb{R}t^{3}`$ | $`r_{MK4}* ...*r_{MK1}`$ |
-| MK5 | $`\frac{1}{120}\mathbb{R}t^{5}`$ | $`\frac{1}{24}\mathbb{R}t^{4}`$ | $`r_{MK5}*...*r_{MK1}`$ |
-| MK6 | $`\frac{1}{720}\mathbb{R}t^{6}`$ | $`\frac{1}{120}\mathbb{R}t^{5}`$ | $`r_{MK6}*...*r_{MK1}`$ |
-| MK7 | $`\frac{1}{5040}\mathbb{R}t^{7}`$ | $`\frac{1}{720}\mathbb{R}t^{6}`$ | $`r_{MK7}*...*r_{MK1}`$ |
-| MK8 | $`\frac{1}{40320}\mathbb{R}t^{8}`$ | $`\frac{1}{5040}\mathbb{R}t^{7}`$ | $`r_{MK8}*...*r_{MK1}`$ |
+| MK1 | $`\mathbb{R}_{MK1}t`$ | $`\mathbb{R}_{MK1}`$ | $`r_{MK1}`$ |
+| MK2 | $`\frac{1}{2}\mathbb{R}_{MK2}t^{2}`$ | $`\mathbb{R}_{MK2}t`$ | $`r_{MK2}*r_{MK1}`$ |
+| MK3 | $`\frac{1}{6}\mathbb{R}_{MK3}t^{3}`$ | $`\frac{1}{2}\mathbb{R}_{MK3}t^{2}`$ | $`r_{MK3}*r_{MK2}*r_{MK1}`$ |
+| MK4 | $`\frac{1}{24}\mathbb{R}_{MK4}t^{4}`$ | $`\frac{1}{6}\mathbb{R}_{MK4}t^{3}`$ | $`r_{MK4}* ...*r_{MK1}`$ |
+| MK5 | $`\frac{1}{120}\mathbb{R}_{MK5}t^{5}`$ | $`\frac{1}{24}\mathbb{R}_{MK5}t^{4}`$ | $`r_{MK5}*...*r_{MK1}`$ |
+| MK6 | $`\frac{1}{720}\mathbb{R}_{MK6}t^{6}`$ | $`\frac{1}{120}\mathbb{R}_{MK6}t^{5}`$ | $`r_{MK6}*...*r_{MK1}`$ |
+| MK7 | $`\frac{1}{5040}\mathbb{R}_{MK7}t^{7}`$ | $`\frac{1}{720}\mathbb{R}_{MK7}t^{6}`$ | $`r_{MK7}*...*r_{MK1}`$ |
+| MK8 | $`\frac{1}{40320}\mathbb{R}_{MK8}t^{8}`$ | $`\frac{1}{5040}\mathbb{R}_{MK8}t^{7}`$ | $`r_{MK8}*...*r_{MK1}`$ |
